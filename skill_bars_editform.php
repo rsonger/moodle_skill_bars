@@ -70,6 +70,8 @@ class skill_bars_editform extends moodleform {
         $mform->setType('userid', PARAM_INT);
         $mform->addElement('hidden', 'courseid');
         $mform->setType('courseid', PARAM_INT);
+        $mform->addElement('hidden', 'blockid');
+        $mform->setType('blockid', PARAM_INT);
 
         $this->add_action_buttons();
     }

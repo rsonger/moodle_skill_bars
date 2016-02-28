@@ -11,14 +11,17 @@ class skill_bars_updateform extends moodleform {
         $mform->addElement('static', 'user', 'Updating skills for:', $this->_customdata['user']);
 
         $skills = $this->_customdata['skills'];
+        $skillmax = $this->_customdata['skillmax'];
 
         foreach( $skills as $skill ) {
             $id_skillbox = 'skill_'. $skill->pointsid;
 
             $mform->addElement('header', 'skillheader', $skill->name);
 
-            //TODO: abstract out point values
-            $pointlevels = array(0,1,2,3,4,5,6,7,8);
+            // Build an array of possible skill point values
+            $pointlevels = array();
+            for( $i=0; $i<=$skillmax; $i++ ) $pointlevels[] = $i;
+
             $mform->addElement('select', $id_skillbox, 'Points: ', $pointlevels);
             $mform->setType($id_skillbox, PARAM_INT);
 
@@ -39,6 +42,8 @@ class skill_bars_updateform extends moodleform {
 
         $mform->addElement('hidden', 'userid');
         $mform->setType('userid', PARAM_INT);
+        $mform->addElement('hidden', 'blockid');
+        $mform->setType('blockid', PARAM_INT);
         $mform->addElement('hidden', 'courseid');
         $mform->setType('courseid', PARAM_INT);
 

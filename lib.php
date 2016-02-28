@@ -66,19 +66,20 @@ function skillbars_get_course_subskills($courseid) {
     return $subskills;
 }
 
-function print_skill_bars_profile($userid, $courseid, $return = false) {
+function print_skill_bars_profile($userid, $skillmax, $courseid, $return = false) {
     $profile = '';
     $skills = get_user_skills($userid, $courseid);
 
     $profile .= '<h1>'. get_string('skillsection', 'block_skill_bars') .'</h1>';
-    $images = get_skillbar_images();
+//    $images = get_skillbar_images();
 
     foreach( $skills as $skill ) {
         $pts = $skill->points;
         $subskills = get_user_subskills_by_skill($skill->id,$userid);
 
         $profile .= '<br /><p><strong>'. $skill->name .'</strong></p>';
-        $profile .= $images[$pts];
+//        $profile .= $images[$pts];
+        $profile .= get_skillbar_icon($pts, $skillmax, 400, 60);
         $profile .= '<br /><br />';
 
         $list = '<ul class="unlist">';
@@ -107,13 +108,12 @@ function print_skill_bars_profile($userid, $courseid, $return = false) {
     }
 }
 
-function block_print_userlist_page($courseid, $return = false) {
+function block_print_user_table($blockid, $courseid, $skillmax, $return = false) {
 
     $context = context_course::instance($courseid);
     $userfields = 'u.id, u.firstname, u.lastname';
     $userlist = get_enrolled_users($context, 'block/skill_bars:viewpages', 0, $userfields);
     $skillslist = get_course_skills($courseid);
-    $skillbars = get_skillbar_icons();
 
     $headers = array('User');
     foreach( $skillslist as $skill ) {
@@ -132,13 +132,14 @@ function block_print_userlist_page($courseid, $return = false) {
         $record = array();
 
         if( count($skills) ) {
-            $url = new moodle_url('/blocks/skill_bars/update.php', array('courseid' => $courseid, 'userid' => $user->id));
+            $url = new moodle_url('/blocks/skill_bars/update.php', array('blockid' => $blockid,
+                                                                         'courseid' => $courseid,
+                                                                         'userid' => $user->id));
             $link = html_writer::link($url, $fullname);
             $record[] = $link;
 
             foreach( $skills as $skill ) {
-                $pts = $skill->points;
-                $record[] = $skillbars[$pts];
+                $record[] = get_skillbar_icon($skill->points, $skillmax);
             }
         } else {
             $record[] = $fullname;
@@ -158,6 +159,7 @@ function block_print_userlist_page($courseid, $return = false) {
     }
 }
 /**
+ * @deprecated
  * @return array of small-size skill bars associated with the point values of each array index
  */
 function get_skillbar_icons() {
@@ -173,6 +175,33 @@ function get_skillbar_icons() {
 }
 
 /**
+ * @return a html div representation of a skill bar
+ *
+ * @param $points       a number representing skill progress
+ * @param $maxvalue     a number representing max possible skill value
+ * @param int $length   length in pixels for the size of the skill bar
+ * @param int $height   height in pixels for the size of the skill bar
+ */
+function get_skillbar_icon($points, $maxvalue, $length = 100, $height = 12) {
+    $pts = $points / $maxvalue * 100;
+    $color = get_config('block_skill_bars', 'progress_color');
+    if( !$color ) {
+        $color = get_string('progress_default_color', 'block_skill_bars');
+    }
+
+    // TODO: figure out a better way to apply CSS
+    $bar_attributes = array('style' => 'width: '. $length .'px; height: '. $height .'px; position: relative; border: 1px solid #999;');
+    $progress_attributes = array('style' => 'width: '. $pts .'%; height:100%; position: absolute; background-color: '. $color);
+
+    $skillbar_html = html_writer::start_div('bar_icon', $bar_attributes);
+    $skillbar_html .= html_writer::start_div('bar_icon_progress', $progress_attributes);
+    $skillbar_html .= html_writer::end_div() . html_writer::end_div();
+
+    return $skillbar_html;
+}
+
+/**
+ * @deprecated
  * @return array of full-size skill bars associated with the point values of each array index
  */
 function get_skillbar_images() {

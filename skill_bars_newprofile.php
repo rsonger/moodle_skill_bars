@@ -33,6 +33,8 @@ class skill_bars_newprofile extends moodleform {
 
             $mform->addElement('hidden', 'userid');
             $mform->setType('userid', PARAM_INT);
+            $mform->addElement('hidden', 'blockid');
+            $mform->setType('blockid', PARAM_INT);
             $mform->addElement('hidden', 'courseid');
             $mform->setType('courseid', PARAM_INT);
 

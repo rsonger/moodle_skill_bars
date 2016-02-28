@@ -1,5 +1,5 @@
 <?php
-$string['pluginname'] = 'Skill Bars block';
+$string['pluginname'] = 'Skill Bars';
 $string['skill_bars'] = 'Skill Bars';
 $string['skill_bars:addinstance'] = 'Add a new Skill Bars block';
 $string['skill_bars:myaddinstance'] = 'Add a new Skill Bars block to My Home';
@@ -17,6 +17,8 @@ $string['pluginsettings'] = 'Skill bars settings';
 $string['editpage'] = 'Edit Course Skills';
 $string['updatepage'] = 'Update User Skills';
 $string['profile'] = 'Skills Profile';
-//$string['pagetitle'] = 'Presenter Name';
 $string['skillsection'] = 'Current Skills';
-//$string['displaypicture'] = 'Display Picture';
+
+$string['progress_color'] = 'Skill bar color';
+$string['progress_color_desc'] = 'Sets the color of the filler element that indicates progress within all skill bars';
+$string['progress_default_color'] = '#FFA500';

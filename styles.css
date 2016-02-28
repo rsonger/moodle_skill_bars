@@ -1,0 +1,11 @@
+div.bar_icon {
+    height: 10px;
+    position: relative;
+    border: 1px solid #ccc;
+}
+
+div.bar_icon_progress {
+    height:100%;
+    position: absolute;
+    background-color: orange;
+}
