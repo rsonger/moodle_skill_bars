@@ -4,7 +4,8 @@ https://trello.com/b/abLt7wbZ
 
 # Installation
 1. Create a folder named `skill_bars` in the `moodle/blocks` directory of your website root.
-2. Open a browser and log in to the Moodle website as administrator to update the database.
+3. Copy the contents of this repository into the newly created `skill_bars` folder.
+2. Open a browser and login to the Moodle website as administrator to update the database.
 
 # How to use
 Once installed, the plugin is available as a block that can be added to a course page. Just go to the desired course, turn editing on, and select "Skill Bars" from the "Add a block" dropdown list.
